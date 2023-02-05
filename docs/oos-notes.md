@@ -1,5 +1,5 @@
 ---
-title: Osnove obrade signala - usmeni
+title: Osnove obradbe signala - usmeni
 geometry: margin=1cm
 output: pdf_document
 ---
