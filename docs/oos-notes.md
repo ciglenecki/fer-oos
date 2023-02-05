@@ -59,11 +59,10 @@ ako pronađeš grešku pošalji email na matej . ciglenecki2 at gmail . com
 });
 </script>
 
-
 ### Signali
+
 <details open><summary>Definirajte osnovne signale (sinusoida, eksponencijala, jedinična stepenica i jedinični impuls).
 </summary>
-
 
 Sinusoida/kosinusoida:
 $x(t) = Asin(\Omega t + \phi)$
@@ -79,19 +78,19 @@ $x(t)=A \sin (\Omega t+\phi)=a \sin (\Omega t)+b \cos (\Omega t)$
 $\begin{aligned} & a=A \cos (\phi) \\ & b=A \sin (\phi)\end{aligned}$
 $\phi=\operatorname{atan} 2(b, a)$
 
-
 Eksponencijalna funkcija
 $x(t) = Ae^{st}, \quad A,s \in \mathbb{C}$
 $x[n] = Az^{n}, \quad A,z \in \mathbb{C}$
 
 Veza između diskretne i kont. eksponencijale: $z = e^{sT}$
 
+### Jedinični impuls (Kroneckova delta funckija)
+
 ![](2023-02-03-17-50.jpg)
+
 $\delta[n]= \begin{cases}1, & n=0 \\ 0, & \text { inače} \end{cases}$
 
-Jedinični impuls (Kroneckova delta funckija)
-
-Jedinična stepenica:
+### Jedinična stepenica:
 
 $\mu[n] = \begin{cases}1, & 0 \le n \\ 0, & \text{inače} \end{cases}$
 
@@ -107,7 +106,6 @@ $\mu[n] = \sum\limits_{m=-\infty}^{n}\delta[m]$
 <details open><summary>(1) Objasnite dekompoziciju signala u težinsku sumu baznih funkcija (2) Objasnite što je spektar signala. (3) Definirajte matricu baznih funkcija, Gramovu matricu i transforamcijsku matricu koju koristimo za računanje spektra nekog signala konačnog trajanja.
 </summary>
 
-
 Signal rastavljamo u njegove gradivne komponente koje se sastoje od drugih signala (bazne funkcije $\phi_k(t)$) a spektar ($s_k$) označava doprinos pojedine bazne funkcije.
 
 Rastav signala na bazne funckije i njihov spektar može sadržavati prebrojivo ili neprebrojivo mnogo baznih funckija.
@@ -116,7 +114,7 @@ $x(t) = \sum_{k}s_k\phi_k(t)$
 
 Najpoznatnija metoda rastava signala je Fourierova transformacija.
 
-Skalarnim umnoškom možemo pronaći spektar $s_k$ na način da primjenimo skalarni umnožak na gornju jednadžbu nakon čega dobivamo sljedeći izraz: 
+Skalarnim umnoškom možemo pronaći spektar $s_k$ na način da primjenimo skalarni umnožak na gornju jednadžbu nakon čega dobivamo sljedeći izraz:
 
 $\left\langle x[n], \phi_l[n]\right\rangle=\left\langle\sum_k s_k \phi_k[n], \phi_l[n]\right\rangle$
 
@@ -164,7 +162,6 @@ Operacija $^{+}$ je Moore-Penrosev  psuedoinverz matrice (učili na strojnom uč
 <details open><summary>Definirajte diskretnu Fourierovu transformaciju u N točaka (DFTN).
 </summary>
 
-
 Fouriervoa baza ($DTF_N$) je
 $\phi_k[n]=\exp \left(2 \pi j \frac{n k}{N}\right)$ i također je ortogonalna
 
@@ -173,7 +170,6 @@ $X[k]=\left\langle x[n], \phi_k[n]\right\rangle=\sum\limits_{n=0}^{N-1} x[n] \ex
 
 Signal (IDFTN):
 $x[n]=\frac{1}{N} \sum\limits_{k=0}^{N-1} X[k] \exp \left(2 \pi j \frac{n k}{N}\right)$
-
 
 </details>
 
@@ -197,7 +193,6 @@ Mora biti $x_s(t) = 0, \quad t \ne nT_s$ jer gubimo sve informacije na tim mjest
 
 Očitavanje na mjestima na kojima želimo radimo sa Diracovom delta funkcijom.
 
-
 $x_s(t)= \begin{cases}x[n] \delta\left(t-n T_s\right), & \text { za } t=n T_s \\ 0, & \text { za } t \neq n T_s\end{cases}$
 
 Za jednostavniju interpretaciju koristimo Diracov češalj (periodizirane Diracove delta funkcije)
@@ -209,6 +204,7 @@ $\operatorname{comb}_{T_s}(t)=\sum\limits_{k=-\infty}^{+\infty} \delta\left(t-k 
 Sad originalan signal $x_s(t)$ ponožimo sa Diracovim češljem
 
 ![](2023-02-03-22-23.png)
+
 ![](2023-02-03-22-25.png)
 
 Što je sa spektrom? Kako se on očitava?
@@ -217,7 +213,7 @@ Spektar $X_s({\Omega})$ očitanog signal $x_s(t)$ iz spektra $X(\Omega)$ izvorno
 
 $$X_s(\Omega)=\frac{1}{T_s} \sum_{k=-\infty}^{+\infty} X\left(\Omega-k \Omega_s\right)$$
 
-što je periodizacija spektra
+što je **periodizacija spektra**
 
 </details>
 
@@ -226,7 +222,6 @@ $$X_s(\Omega)=\frac{1}{T_s} \sum_{k=-\infty}^{+\infty} X\left(\Omega-k \Omega_s\
 
 Ako uz zadovoljen (za sada nedefinirani) uvjet teorema očitavanja uzorci signala jednoznačno opisuju signal onda to znači da mora postojati postupak rekonstrukcije signala iz njegovih uzoraka. Taj postupak zovemo interpolacija.
 
-
 Za rekonstrukciju u **spektralnoj domeni** potrebno je zadovoljiti Nyquistov uvjet. Za pojasno ograničene signale maksimalne frekvencije $\Omega_{\text{MAX}}$ nema preklapanja spektra ako je zadovoljen uvjet
 
 $$ \Omega_s > 2\Omega_{\text{MAX}} \quad \text{ili} \quad T_s < \frac{\pi}{\Omega_{\text{MAX}}}$$
@@ -234,6 +229,7 @@ $$ \Omega_s > 2\Omega_{\text{MAX}} \quad \text{ili} \quad T_s < \frac{\pi}{\Omeg
 Jednostavnije: frekvencije očitavanja ($\Omega_S$) mora biti duplo veća od maksimalne frekvencije $\Omega_{\text{MAX}}$
 
 Ako je Nyquistov uvjet zadovoljen iz pozantog spektra $X_s(\Omega)$ možemo odrediti polazni spektar $X(\Omega)$ tako da:
+
 - spektar pomnožimo s $T_s$
 - ostavimo samo temeljni period oko ishodišta koji je duljine $\Omega_s$
 
@@ -241,9 +237,9 @@ Taj postupak se zove filtracija a matematički se može zapisati kao:
 
 $$ X(\Omega)  = X_s(\Omega) \cdot T_s \text{ rect}\left(\frac{\Omega}{\Omega_s}\right) = X_s(\Omega) \cdot F(\Omega)$$
 
-gdje je spektar $F(\Omega)$: 
-![](2023-02-05-01-19.png)
+gdje je spektar $F(\Omega)$:
 
+![](2023-02-05-01-19.png)
 
 ![](2023-02-05-01-22.png)
 
@@ -253,22 +249,20 @@ Konvolucija $(*)$ :
 
 $x[n] * y[n]=\sum_{m=-\infty}^{+\infty} x[m] y[n-m]$
 
-
 Konvolucija u vremenskoj domeni rezultira množenjem u spektralnoj domeni.
 
-$x[n] * y[n] \quad \bigcirc - \bullet \quad  X(z)Y(z)$
-$x(t) * y(t)=\int_{-\infty}^{+\infty} x(\tau) y(t-\tau) d \tau$
+$x[n] *y[n] \quad \bigcirc - \bullet \quad  X(z)Y(z)$
+$x(t)* y(t)=\int_{-\infty}^{+\infty} x(\tau) y(t-\tau) d \tau$
 
 Sad se mogu dva spektra pomnožiti (spektar se definira kao integral originalnog signala pomnožen sa $e^{-j\Omega t}$) čime se dobiva izraz u kojem središnji integral sadržava definiciju konvolucije dva signala. Jedan signal je $x_s(t)$ a drugi je signal koji "tražimo" je $f(t)$. Taj signal možemo izračunati tako da napravimo inverz (ICTFT) njegovog poznatog spektra $F(\Omega)$ koji je definiran gore. Inverz ispadne $f(t) = \frac{\text{sin}(\frac{\pi t}{T_s})}{\frac{\pi t}{T_s}} = \text{sinc}(t)$
 
 ![](2023-02-05-01-43.png)
 
-
 Sad znamo da spektralna filtracija postaje konvolucija u vremenskoj domeni:
 
 $X(\Omega)=X_s(\Omega) F(\Omega)=X_s(\Omega) T_s \operatorname{rect}\left(\Omega / \Omega_s\right)$
 
-$x(t)=x_s(t) * f(t)=x_s(t) * \operatorname{sinc}\left(t / T_s\right)$
+$x(t)=x_s(t) *f(t)=x_s(t)* \operatorname{sinc}\left(t / T_s\right)$
 
 Dodatno, $x_s(t) = x(t)\text{comb}_{T_s}(t)$
 
@@ -282,9 +276,9 @@ Formula nam u osnovi govori da kontinuirani signal rekonstruiramo tako da na mje
 
 </details>
 
-
 ### Sustavi
-<details open><summary>Definirajte sustav preko ulazno/izlaznog modela. 
+
+<details open><summary>Definirajte sustav preko ulazno/izlaznog modela.
 </summary>
 
 Ulazne veličine $x[n]$ su one koje utječu na vladanje sustava i zovemo ih **pobudom**.
@@ -309,6 +303,7 @@ Primjeri sustava:
 </summary>
 
 Malo šire o svojstvima sustava:
+
 - vremenska nepromjenjivost (engl. time invariance)
 - linearnost (engl. linearity)
 - posjedovanje memorije (engl. systems with memory)
@@ -327,30 +322,30 @@ U praksi smjer pomaka prema budućnosti je nemoguć jer to znači da ovisimo o b
 ### Linearnost i superpozicija
 
 Svojstvo linearnosti sastoji se od:
+
 1. svojstva aditivnosti
 2. svojstvo homogenosti
 
 a sustavi koji su linearni zadovoljavaju svojstvo superpozicije.
 
 Linearno vremenski nepromjenjivi (LTI) sustavi su oni koji zadovoljavaju svojstvo:
+
 - linearnosti
   - aditivan
   - homogen
 - vremenske nepromjenjivosti
 
-
 ### Aditivnost
 
 Promatramo dva ulazna signala $x_1[n], x_2[n]$. Svaki od njih ima svoj odziv $y_1[n], y_2[n]$ koji se dobije tako da provućemo ulazni signal kroz sustav $\mathcal{S}$. Ako napravimo sljedeće:
+
 - zbrojimo $x_1[n] + x_2[n] = x[n]$
 - $x[n]$ provućemo kroz kroz sustav $\mathcal{S}$ i dobijemo odziv $y[n]$
 
 ako je odziv $y[n]$ jednak zbroju pojedinih odziva $y_1[n], y_2[n]$ onda kažemo da je sustav aditivan (mora vrijediti za svaki ulazno-izlazni par signala)
 
-
 $$ \forall{\left(x_1[n], y_1[n]\right)}, \forall{\left(x_2[n], y_2[n]\right)}:\\
 \mathcal{S}[x_1[x] + x_2[n]] = y_1[n] + y_2[n] $$
-
 
 ### Homogenost
 
@@ -363,7 +358,7 @@ $$ \mathcal{S}[a\cdot x[n]] = a \cdot y[n]$$
 Sustav je linearan ako je aditivan i homogen za svaki ulazno-izlazni par:
 
 $$\forall{\left(x_1[n], y_1[n]\right)}, \forall{\left(x_2[n], y_2[n]\right)}: \\
-\mathcal{S}[ax_1[n]+bx_2[n] = ay_1[n] + by_2[n]$$ 
+\mathcal{S}[ax_1[n]+bx_2[n] = ay_1[n] + by_2[n]$$
 
 </details>
 
@@ -377,6 +372,7 @@ $$ f_n : \mathbb{C^Z} \rightarrow \mathbb{C} $$
 Međutim želimo ograničiti broj uzoraka koji je potreban za računanje odziva na neku konačnu vrijednost (računala...)
 
 Dva svojstva koja ograničavaju broj uzoraka su:
+
 - (ne)posjedovanje memorije
   - bezmemorijski sustavi
   - memorijski sustavi
@@ -387,13 +383,12 @@ Dva svojstva koja ograničavaju broj uzoraka su:
 Sustav je bezmemorijski ako računamo odziv sustava u koraku $n$ ($y[n]$) i za računanje odziva moramo znati samo vrijednost $x[n]$.
 
 $$ y[n] = \mathcal{S}[x[n]] = f(x[n]) $$
-### Memorijski sustav 
+
+### Memorijski sustav
 
 Sustav je memorijski ako za računanje odziva sustava u koraku $n$ ($y[n]$) trebamo znati ulazni signal koji se NIJE dogodio u trenutku $n$ već u nekom drugom trenutku $m$. Dakle $m \ne n$.Red sustava je konačan broj ulaznih uzoraka $m$ o kojem ovisi pobuda $n$.
 
-
 $$ y[n] = S[x[n]] = f(...,x[m],...) $$
-
 
 Primjer memorijskog sustava prvog reda. Ovaj sustav ovisi o samo jednom dodatnom uzorku osim $x[n]$ a to je $x[n-1]$:
 
@@ -413,7 +408,7 @@ Formalno (Sustav je kauzalan ako ne postoji budući korak $m > n$ takav da je iz
 
 $$ \forall{n}\forall{y(n)} \nexists{m>n} : y[n] = f(...,x[m],...) $$
 
-## Nekauzalnost
+### Nekauzalnost
 
 Nekauzalan sustav je sustav koji nije kauzalan. Dakle, sustav čija pobuda $y[n]$ može ovisiti o ulazima $x[m]$ za koje vrijedi $m > n$ (trenutak ulaznih signala se dogodio nakon trenutka pobuda).
 
@@ -440,7 +435,7 @@ $$\mathcal{S}[\delta[n-k]]=h_k[n]=h_0[n-k]$$
 
 Sad možemo ispustiti $-k$ i koristiti samo $h_0[n]$ tj. $h[n]$
 
-Sad za linearni vremenski nepromjenjivi sustav dobivamo konvoluciju: 
+Sad za linearni vremenski nepromjenjivi sustav dobivamo konvoluciju:
 
 $$ y[n]=\mathcal{S}[x[n]]=\sum\limits_{k=-\infty}^{+\infty} x[k] h[n-k] = x[n] * h[n] $$
 
@@ -450,7 +445,7 @@ Rezime:
 
 ![](2023-02-05-14-52.png)
 
-### Dodatno: kauzalni linearni vremenski nepromjenjivi sustavi 
+### Dodatno: kauzalni linearni vremenski nepromjenjivi sustavi
 
 Linearan vremenski nepromjenjiv sustav S opisan svojim impulsnim odzivom $h[n]$ je kauzalan ako je $h[n] = 0$ za sve negativne korake $n$.
 
@@ -462,7 +457,6 @@ $$
 
 Dakle sve je isto samo što suma ide od $0$ do $n$
 </details>
-
 
 <details open><summary>Objasnite što je prijenosna funkcija sustava.
 </summary>
@@ -578,8 +572,8 @@ Vremenski diskretan LTI sustav opisan linearnom diferencijskom jednadžbom sa st
 
 </details>
 
-
 ### Filtracija
+
 <details open><summary>Objasnite što je filtracija signala.
 </summary>
 
@@ -591,10 +585,9 @@ $$H(z)={Y(z)\over X(z)}={b_0+b_1z^{-1}+b_2z^{-2}+\cdots+b_{M}z^{-M}\over1+a_1z^{
 
 takvih da frekvencijska karakteristika filtra $H(e^{j\omega})$ dobro aproksimira neku željenu frekvecnijsku karakteristiku $D(\omega)$.
 
-### IIR i FIR 
+### IIR i FIR
 
 za kauzalne vremenski diskretne LTI sustave je $h(n) = 0$ za $n < 0$ pa vrijedi:
-
 
 IIR (Infinite Impulse Response) sustavi su oni za koje je impulsni odziv definiran za beskonačni interval $0 \le n \lt \infty$
 
@@ -608,17 +601,15 @@ $$
 y(n)=\sum_{m=0}^{\color{red}{M}} h(m) u(n-m)
 $$
 
-## IIR sustavi
+### IIR sustavi
 
 Originalan izraz pretvaramo u implicitan oblik preko lienarne diferencijske jednadžbe s konstantnim koeficijentima:
 
 $$ y(n) + a_1 y(n-1) + ... + a_N y(n- N) = b_0 x(n) + ... + b_M x(n-m) $$
 
-$$ y(n) = - \sum\limits_{m=1}^N a_m y(n-m) + \sum\limits_{m=0}^N b_m x(n-m) $$ 
+$$ y(n) = - \sum\limits_{m=1}^N a_m y(n-m) + \sum\limits_{m=0}^N b_m x(n-m) $$
 
 Zbog toga što je postupak izračuna odziva rekurzivan onda IIR nazivamo rekurzivnim sustavima.
-
-
 
 ### FIR sustavi
 
@@ -628,10 +619,10 @@ $$ y(n) = \sum\limits_{m=0}^M b_m x(n-m) $$
 
 $h(m) = b_m$ za $m=0,...M$ a inače je $0$ zbog čega su FIR nerekurzivni sustavi.
 
-
 ### All-pole sustavi
 
 Sustavi su ujedno i IIR sustavi (beskonačno trajanje impulsnog odziva) koji se sastoje od:
+
 - $N$ polova koji su određeni koeficijentima $a_m$
 - $N$ trivijalnih nula ($z = 0$)
 
@@ -641,10 +632,10 @@ $$
 H(z)=\frac{b_0}{1+\sum_{m=1}^N a_m z^{-m}}
 $$
 
-
 ### All-zero sustavi
 
 Sustavi su ujedno i FIR sustavi (konačno trajanje impulsnog odziva) koji se sastoje od:
+
 - $N$ nula koje su određene koeficijentima $b_m$
 - $N$ trivijalnih polova ($z = 0$)
 
@@ -654,8 +645,8 @@ $$
 H(z)=\frac{\sum_{m=0}^M b_m z^{-m}}{1}
 $$
 
-
 Utjecaj položaja polova i nula na frekvencijsku karakteristiku
+
 - nula ili pol ima najveći utjecaj na područje frekvencijske karakteristike koja odgovara dijelu jedinične kružnice koji je najbliži promatranoj nuli ili polu
 - približavanjem nule ili pola jediničnoj kružnici raste njihov utjecaj na frekvencijsku karakteristiku
 - za **pol** čiji je modul $|p_m|$ **blizak jedinici**, amplitudna frekvencijska karakteristika ima lokalni maksimum za frekvenciju koja odgovara točki na jediničnoj kružnici koja je najbliža promatranom polu
@@ -685,12 +676,11 @@ Pošto je fazno kašnjenje konstata, to znači da sve komponente složenog signa
 
 Sustav koji ima različita kašnjenja za komponente složenog signala uzrokuje fazno izobličenje signala.
 
-
 Razramtramo spektar $X(e^{j\omega})$ koji se rastavlja na amplitudni i fazni dio:
 
 $$ X(e^{j\omega}) = |X(e^{j\omega})|e^{j\angle X(e^{j\omega})} $$
 
-Fazno-frekvencijska karakteristika $\angle X(e^{j\omega})$ je zapravo dio koji utječe na oblik faze. 
+Fazno-frekvencijska karakteristika $\angle X(e^{j\omega})$ je zapravo dio koji utječe na oblik faze.
 
 Kod filtriranja često želimo mijenjati samo amplitudu pojedinih komponenti signala bez mijenjanja njihove faze. Taj zahtjev da filtar utječe samo na amplitudu postavlja ograničenje na željenu fazno-frekvencijsku karakteristiku. Preciznije, željena fazna karakteristika $\angle X(\omega)$ mora biti afina funkcija od $\omega$ (pravac), dakle mora vrijediti
 
@@ -699,7 +689,6 @@ $$\angle X(\omega)=a+b\omega$$
 gdje su $a$ i $b$ realni brojevi. Ako je taj uvjet zadovoljen, kažemo da je faza linearna.
 
 LTI sustave ili filtre čija fazna karakteristika je opisana gore navedenom jednadžbom nazivamo sustavima s **generaliziranom linearnom fazom**. Glavna prednost takvih filtara je da ne unose **fazna izobličenja**, no moguće je da uzrokuje grupno kašnjenje.
-
 
 Možemo pokazati da se taj uvjet **generalizirane linearne faze** koji je iskazan u frekvencijskoj domeni transformira u uvjet **simetričnost** ili **antisimetričnosti** impulsnog odziva u vremenskoj domeni. Prema tome impulsni odziv svakog filtra generalizirane linearne faze mora imati točku oko koje je ili simetričan ili antisimetričan.
 
@@ -714,7 +703,6 @@ $e[n]$ je ovojnica signala a $c[n]$ nosilac
 
 ![](2023-02-05-20-04.png)
 
-
 $$
 y[n]=2 \cos \left(\frac{\omega_2-\omega_1}{2}\left(n+\overbrace{\frac{\phi(\omega_2)-\phi(\omega_1)}{\omega_2-\omega_1}}^{\approx \color{blue}{\tau_g}}\right)\right) \cdot \cos \left(\frac{\omega_1+\omega_2}{2}\left(n+\underbrace{\frac{\phi(\omega_1)+\phi(\omega_2)}{\omega_1+\omega_2}}_{\approx \color{red} \tau_\phi}\right)\right) \\
 $$
@@ -726,30 +714,27 @@ Grupno vrijeme kašnjenja jest negativna derivacija fazno-frekvencijske karakter
 
 $$\textcolor{blue}{\tau_g(\omega)} = - \frac{\partial \phi(\omega)}{\partial \omega}$$
 
-
-
 Idealno grupno vrijeme kašnjenje za filtre savršeno linearne faze je konstantno. Za dizajnirani IIR filtar stoga želimo da grupno vrijeme kašnjenje u području propuštanja bude što bliže konstanti. Grupno kašnjenje u području gušenja nas ne zanima jer se te frekvencije uklanjaju iz signala.
 
 Primijetite sljedeće:
+
 - Sustavi s linearnom fazom imaju konstantno i grupno i fazno kašnjenje.
 - Grupno kašnjenje možemo koristiti kao približnu mjeru faznih izobličenja; značajna promjenljivost grupnog kašnjenja znači da su fazna izobličenja moguća
 - grupno i fazno kašnjenje poprimaju NEcjeloborne vrijednosti što otežava njihovu primjenu i interpretaciju u praksi
-
 
 </details>
 
 <details open><summary>Definirajte amplitudno selektivnu filtraciju i objasnite osnovne amplitudno selektivne filtre (NP, VP, PP i PB).
 </summary>
 
-
 ### Svepropusni filtar
 
 Onaj koji ne utječe na amplitudno frekvencijsku karakteristiku već samo na faznu. Zbog toga se nazivaju i korektori faze. Ovaj sustav ima recipročne polove (unutar jedinične kružnice) i nule (izvan jedinične kružnice).
 
-
 ### Dizajniranje amplitudno-selektivnih IIR filtara
 
 Kod klasičnog dizajna filtara (i digitalnih i analognih) postupak dizajniranja se razdvaja u dva koraka:
+
 1. dizajniranje amplitudno-selektivnog filtra
 2. dizajniranje faznog korektora.
 
@@ -770,7 +755,7 @@ $$
 \end{aligned}
 $$
 
-## Četiri tipa amplitudno-selektivnih filtara
+### Četiri tipa amplitudno-selektivnih filtara
 
 Četiri tipa amplitudno-selektivih filtara obzirom na oblik željene **amplitudne karakteristike**:
 
@@ -800,11 +785,9 @@ Ostali tipove filtara koji ne odgovaraju nekom od standardna četiri tipa amplit
 
 FIR smo već definirali gore.
 
-tldr; tako da impulsni odziv tih filtara zadovoljava svojstvo simetrije ili antisimetrije,
+tldr; tako da impulsni odziv tih filtara zadovoljava svojstvo simetrije ili antisimetrije. To znači da su prvi i zadnji koeficijent jednaki, drugi i predzadnji jednaki, itd.
 
-
-## Položaj nula
-
+### Položaj nula
 
 Svaki digitalni filtar u potpunosti je opisan položajem vlastitih polova i nula. FIR filtri nemaju ne-trivijalnih polova što znači da samo nule utječu na njihovu frekvencijsku karakteristiku. Prema tome kod FIR filtara nas zanima isključivo položaj vlastitih nula.
 
@@ -812,13 +795,11 @@ Znamo da ako je impulsni odziv realan onda su nule digitalnog filtra ili čisto 
 
 Također, nula filtra postavljena na jediničnu kružnicu $z=e^{j\omega}$ na frekvenciju $\omega_0$ uzrokuje da amplitudna karakteristika na $\omega_0$ postane jednaka nuli. U tom slučaju kažemo da filtar u potpunosti **zatire** odabranu frekvenciju.
 
-
-## Položaj nula kod FIR filtara generalizirane linearne faze
+### Položaj nula kod FIR filtara generalizirane linearne faze
 
 Kod određivanja položaja nula od posebnog interesa su **FIR filtri generalizirane linearne faze**. Impulsni odziv tih filtara zadovoljava svojstvo simetrije ili antisimetrije.
 
 $$h[n]=\pm h[M-n].$$
-
 
 To znači da su prvi i zadnji koeficijent jednaki, drugi i predzadnji jednaki, itd... Gore navedeno svojstvo impulsnog odziva omogućava nam da prijenosnu funkcija filtra izrazimo na dva različita načina,
 
@@ -850,49 +831,49 @@ To svojstvo proizlazi odmah iz $H(z)=\pm z^{-M}H(z^{-1})$ jer za $z_0\neq 0$ ima
 </summary>
 
 FIR prednosti:
+
 - bezuvjetna stabilnost;
 - precizna kontrola fazne karaketeristike (linearnost faze);
 - optimalni algoritmi za dizajniranje
 - robusniji što se tiče numeričke preciznosti (nazivnik je 1)
 
 FIR Mane:
+
 - dulje input-output kašnjenje;
 - skuplje za računski izračunati
 
 IIR prenosti:
+
 - brže se računaju
 - kraće input-output kašnjenje
 - kompaktna reprezentacija
 
 IIR Mane:
+
 - stabilnost nije garantirana (nazivnik može biti ne-jedan, tj. polovi nisu trivijalni)
 - fazni oddziv nije lako kontrolirati
 - osjetljiv na numeričke preciznosti
 
 </details>
 
+### TODO: Primjene
 
-### Primjene
 <details open><summary>Definirajte brzu Fourierovu transformaciju (FFT) i navedite njenu asimptotsku složenost.
 </summary>
-
 
 </details>
 
 <details open><summary>Objasnite razliku između linearne i cirkularne konvolucije te objasnite kako koristimo FFT za efikasno računanje linearne konvolucije konačnih signala.
 </summary>
 
-
 </details>
 
 <details open><summary>Objasnite razliku između linearne i cirkularne korelacije te objasnite kako koristimo FFT za efikasno računanje linearne korelacije konačnih signala.
 </summary>
 
-
 </details>
 
 <details open><summary>Navedite nekoliko problema aritmetike konačne preciznosti te detaljno objasnite kako možemo otkloniti problem preljeva.
 </summary>
-
 
 </details>
