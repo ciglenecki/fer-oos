@@ -542,7 +542,7 @@ Sustav je (BIBO, bounded-input, bounded-output) stabilan ako za svaku amplitudno
 
 Signal $f[n]$ je amplitudno ograničen ako postoji broj $B$ takav da vrijedi
 
-$$\forall{n \in \mathbb{Z}}, \exist{B} \in \mathbb{R}^+ : \quad |f[n]| < B $$
+$$\forall{n \in \mathbb{Z}}, \exists{B} \in \mathbb{R}^+ : \quad |f[n]| < B $$
 
 Dakle sustav $\mathcal{S}$ je stabilan ako za svaki ulaz $x[n]$ koji za koji vrijedi $|x[n]| < B_x$ postoji pozitivna konstanta $k$ takva da:
 
