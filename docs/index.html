@@ -558,15 +558,127 @@ y[n]=2 \cos \left(\frac{\omega_2-\omega_1}{2}\left(n+\overbrace{\frac{\phi(\omeg
 <h3 id="todo-primjene">TODO: Primjene</h3>
 <details open>
 <p><summary>Definirajte brzu Fourierovu transformaciju (FFT) i navedite njenu asimptotsku složenost. </summary></p>
+<h3 id="ponavljanje">Ponavljanje</h3>
+<p>Bazna funckije <span class="math inline">\(\text{DTF}_N\)</span> su <span class="math inline">\(\phi_k[n] = exp(2\pi j \frac{n k}{N}), k = 0, ..., N-1\)</span></p>
+<p>Radi preglednosti uvodimo oznaku <span class="math inline">\(W^{n k}_N = exp(2\pi j \frac{n k}{N})\)</span></p>
+<p>Uoči da se “broj” i “nazivnik” kod <span class="math inline">\(W\)</span>-a mogu kratiti.</p>
+<p>Sad spektar možemo zapisati kao:</p>
+<p><span class="math display">\[ X[n] = \sum\limits_{n=0}^{N-1}x[n]W^{n k}_{\textcolor{red}{N}} \]</span></p>
+<p>a <span class="math inline">\(\textcolor{red}{N}\)</span> označava broj jednako raspodjeljenih kompleksnih brojeva na jediničnoj kružnici.</p>
+<p><img src="2023-02-06-00-10.png" /></p>
+<p>Broj operacija za izrarvno računanje <span class="math inline">\(\text{DTF}_N\)</span> jest: - <span class="math inline">\(4N^2\)</span> množenje realnih brojeva - <span class="math inline">\(4N^2 - 2N\)</span> zbrajanja realnih brojeva</p>
+<p>dakle složenost je <span class="math inline">\(O(N^2)\)</span></p>
+<p>Problem složenosti napadamo sa principom podjeli-pa-vladaj. Neka je <span class="math inline">\(N\)</span> složen broj oblika <span class="math inline">\(r^m\)</span>. Tad princip zovemo korijen-r metoda. Konkretno mi uvijek koristimo <span class="math inline">\(r=2\)</span> što je onda korijen-2 metoda (engl. radix-2)</p>
+<p>Sad svaki indeks rastavljamo na dva načina: 1. decimacija u vremenu ,<span class="math inline">\(n\)</span> prestavljamo u obliku <span class="math inline">\(n = 2n_1 + n_0\)</span> 2. decimacija u frekvenciji, <span class="math inline">\(k\)</span> prestavljamo u obliku <span class="math inline">\(k=2 k_1 + k_0\)</span></p>
+<p>Razlažemo signal <span class="math inline">\(x[n]\)</span> na parne i neparne indeksirane uzorke:</p>
+<p><img src="2023-02-06-00-15.png" /></p>
+<p><span class="math display">\[
+\begin{aligned}
+X[k] &amp; =\operatorname{DFT}_N[x[n]]=\sum_{n=0}^{N-1} x[n] W_N^{n k} \\
+&amp; =\underbrace{\sum_{n=0}^{N / 2-1} x[2 n] W_N^{2 n k}}_{\text {parno indeksirani }}+\underbrace{\sum_{n=0}^{N / 2-1} x[2 n+1] W_N^{(2 n+1) k}}_{\text {neparno indeksirani }} \\
+&amp; =\sum_{n=0}^{N / 2-1} x[2 n] W_{N / 2}^{n k}+W_N^k \sum_{n=0}^{N / 2-1} x[2 n+1] W_{N / 2}^{n k} \\
+&amp; =\operatorname{DFT}_{N / 2}[x[2 n]]+W_N^k \operatorname{DFT}_{N / 2}[x[2 n+1]]
+\end{aligned}
+\]</span></p>
+<p>Interpretacija člana <span class="math inline">\(W^k_n\)</span> je ta da množimo nešto sa kompleksnim brojem što u ovom slučaju rotira podgrupu i tako se prebacujemo na neparne indeksirani spektar.</p>
+<p><img src="2023-02-06-00-18.png" /></p>
+<h3 id="analiza-složenosti">Analiza složenosti</h3>
+<p>Složenost spajanja dvije <span class="math inline">\(DFT_{N/2}\)</span> u jednu <span class="math inline">\(DFT_N\)</span> je: - <span class="math inline">\(N\)</span> množenja kompleksnih brojeva - <span class="math inline">\(N\)</span> zbrajanja kompleksnih brojeva</p>
+<p>Dakle za rastavljanje imamo <span class="math inline">\(O(m N)\)</span> ako je <span class="math inline">\(m\)</span> broj razina rastava. Vrijedi <span class="math inline">\(N=2^m\)</span> pa je <span class="math inline">\(m = log_2 N\)</span></p>
+Konačna složenost potpunog rastava za korijen-2 decimaciju je <span class="math inline">\(O(N log_2 N)\)</span>
 </details>
 <details open>
 <p><summary>Objasnite razliku između linearne i cirkularne konvolucije te objasnite kako koristimo FFT za efikasno računanje linearne konvolucije konačnih signala. </summary></p>
 </details>
 <details open>
 <p><summary>Objasnite razliku između linearne i cirkularne korelacije te objasnite kako koristimo FFT za efikasno računanje linearne korelacije konačnih signala. </summary></p>
+<p>Linearna konvolucija:</p>
+<p><span class="math display">\[
+x[n] * y[n]=\sum_{m \in \mathbb{Z}} x[m] y[n-m]
+\]</span></p>
+<p>možemo ju lakše računati da izračunamo tablicu množenja pa radimo sumacije.</p>
+<p>Cirkularna konvolucija (<span class="math inline">\(\langle n-m\rangle _N\)</span> je oznaka za modulo <span class="math inline">\(N\)</span>):</p>
+<p><span class="math display">\[
+x[n] \otimes y[n]=\sum_{m=0}^{N-1} x[m] y\left[\langle n-m\rangle_N\right]
+\]</span></p>
+<p>Teorem o konvoluciji kaže da se konvolucija u vremenskoj domeni preslikava u običan umnožak u frekvencijskoj domeni.</p>
+<p>Za velike N možemo koristit FFT da izračunamo cirkularnu konvoluciju tako da prvo napravimo Fourierovu transformaciju nad oba signala. Sad imamo 2 spektra. Pomnožimo ih, a zatim ih vratimo u signal sa inverzom Foruierove transformacije. Složenost te operacije je <span class="math inline">\(O(N log_2 N)\)</span></p>
+<p><span class="math display">\[
+x[n] \otimes y[n]=\operatorname{IDFT}_N\left[\mathrm{DFT}_N[x[n]] \cdot \mathrm{DFT}_N[y[n]]\right]
+\]</span></p>
+<h3 id="linearna-korelacija">Linearna korelacija</h3>
+<p>Nije komutativna! No vrijedi <span class="math inline">\(r_{xy}[n] = r_{yx}[-n]\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; r_{x y}[n]=x[n] \star y[n]=\sum_{m \in \mathbb{Z}} x[n+m] y^*[m] \\
+&amp; r_{y x}[n]=y[n] \star x[n]=\sum_{m \in \mathbb{Z}} y[n+m] x^*[m]
+\end{aligned}
+\]</span></p>
+<h3 id="cirkularna-korelacija">Cirkularna korelacija</h3>
+<p>Nije komutativna! No vrijedi <span class="math inline">\(r_{xy}[n] = r_{yx}[-n]\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \tilde{r}_{x y}[n]=x[n] \circledast y[n]=\sum_{m=0}^{N-1} x\left[\langle n+m\rangle_N\right] y^*[m] \\
+&amp; \tilde{r}_{y x}[n]=y[n] \circledast x[n]=\sum_{m=0}^{N-1} y\left[\langle n+m\rangle_N\right] x^*[m]
+\end{aligned}
+\]</span></p>
+<p>Teorem o korelaciji kaže da se korelacija u vremenskoj domeni preslikava u umnožak dva spektra od kojih je drugi konjugiran u frekvencijskoj domeni.</p>
+<p>Vrijedi:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \operatorname{DTFT}[x[n] \star y[n]]=\operatorname{DTFT}[x[n]] \cdot \operatorname{DTFT}[y[n]]^* \\
+&amp; \operatorname{DTFT}[y[n] \star x[n]]=\operatorname{DTFT}[y[n]] \cdot \operatorname{DTFT}[x[n]]^*
+\end{aligned}
+\]</span></p>
+<p>Ako djelujemo sa IDTFT operacijom dobivamo sljedeće:</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; x[n] \star y[n]=\operatorname{IDTFT}[\operatorname{DTFT}[x[n]] \cdot \operatorname{DTFT}[y[n]]^*] \\
+&amp; y[n] \star x[n]=\operatorname{IDTFT}[\operatorname{DTFT}[y[n]] \cdot \operatorname{DTFT}[x[n]]^*]
+\end{aligned}
+\]</span></p>
+<p>Dakle korelaciju možemo izračunati pomoću DTFT-a na sljedeći način: - primjeni DTFT na oba signala - sad imamo dva spektra - primjeni konjugaciju za drugi spektar - pomnoži dva spektra - koristi IDTFT da se vratiš u vremensku domenu</p>
+<p>Složenost za efikasno računanje korelacije uz FFT je <span class="math inline">\(O(N log_2 N)\)</span> uz veću skrivenu konstantu.</p>
+Signal korelacije postoji i lijevo i desno od toček <span class="math inline">\(n=0\)</span> dok standardne implementacije FFT-a očekuju desne signale koji počinju od <span class="math inline">\(n=0\)</span> pa zato: - računamo li <span class="math inline">\(r_{xy}[n]\)</span> koraku <span class="math inline">\(n\)</span> dodajemo <span class="math inline">\(- N_y +1\)</span> - računamo li <span class="math inline">\(r_{yx}[n]\)</span> koraku <span class="math inline">\(n\)</span> dodajemo <span class="math inline">\(- N_x +1\)</span>
 </details>
 <details open>
 <p><summary>Navedite nekoliko problema aritmetike konačne preciznosti te detaljno objasnite kako možemo otkloniti problem preljeva. </summary></p>
+<p>Realizacija filtra mora biti numerički stabila pa ćemo definirati česte numeričke probleme poput <strong>preljev, podljev i greška zaokruživanja</strong></p>
+<p>Svaki program koji izravno računa sljedeći izraz kažemo da odgovara direktnoj realizaciji</p>
+<p><span class="math display">\[
+y[n]=\frac{1}{a_0}\left(\sum_{l=0}^L b_l x[n-l]-\sum_{k=1}^K a_k y[n-k]\right)
+\]</span></p>
+<h3 id="početne-vrijednosti">Početne vrijednosti</h3>
+<p>Kažemo da se na početku filtracije javlja prijelazna pojava jer početne vrijednosti <span class="math inline">\(x[n]\)</span> i <span class="math inline">\(y[n]\)</span> nisu poznate. Ona je određena brzinom prigušenja impulsnog odziva. Generalno se postavljaju u nulu jer se time osiguravamo linearnost.</p>
+<p>Možemo smanjtii broj međurezutlata tako da spojimo ulaz <span class="math inline">\(x[n]\)</span> i izlaz <span class="math inline">\(y[n]\)</span> u programu.</p>
+<hr />
+<p>… TODO …</p>
+<hr />
+<p>Konačna preciznost određena je broj značajnih znamenki koje pohranjujemo i položaj decimalne točke. Kod prelaska u konačnu preciznost uvijek se javljaju greške zaokruživanja. Te operacije onda označavamo sa zaokruživanjem simbola.</p>
+<blockquote>
+<p>Rezultat približnih operacija u konačnoj preciznosti koje unose grešku mora biti jednak <strong>zaokruživanju</strong> rezultata kojeg bi dobili korištenjem artimetike beskonačne preciznosti na najbliži broj kojeg možemo zapisati.</p>
+</blockquote>
+<p>Ako je najveći broj kojeg možemo zapisati 9.9 a najmanji -9.9, a najmanji pozitivan 0.1</p>
+<p>onda 6.2 + 5.3 = 9.9 (nije 11.5) jer se dogodio <strong>preljev</strong>.</p>
+<p>Također ovisi o vrsti artimetike: - aritmetika zasićenjem: 9.9 (stane na max broju) - modulna artimetika: -8.4 (dolazi do prematanja)</p>
+<hr />
+<p>Pri množenju 6.2 * 0.2 = 1.24 ali zapravo dobivamo 1.2 i tu se dogodila greška zaokruživanja.</p>
+<p>Također 0.2 * 0.2 = 0.04 ali zapravo dobivamo 0 i to je greška <strong>podljeva</strong>.</p>
+<hr />
+<p>Prelijev se događa u čvoru grafa toka signala čija apsolutna vrijednost preskoči <strong>dinamku <span class="math inline">\(D\)</span></strong></p>
+<p>Ako postavimo ograničenje amplitude (ili dinamike) ulaza</p>
+<p><span class="math display">\[ |x[n]| \le D_x \lt D \]</span></p>
+<p>onda za svaki čvor kroz analizu najgoreg slučaja možemo odrediti kolika može biti najveća vrijednost u tom čvoru.</p>
+<p>Ako znamo sve dinamike čvorova <span class="math inline">\(D_v\)</span> onda možemo uvesti pojačanje <span class="math inline">\(k_ul\)</span> i <span class="math inline">\(k_izl\)</span> takva da vrijedi:</p>
+<p><span class="math display">\[
+k_{\mathrm{ul}}=\frac{1}{k_{\mathrm{iz}}}=\frac{D}{\max _v D_v}
+\]</span></p>
+<p>Dinamiku određujemo u tri koraka: 1. određujemo prijenosnu funkciju Hv (z) između ulaza i čvora - označimo sve čvorove i iz njih postavljamo jednadžbe. Na kraju svedemo sve na izraz: <span class="math display">\[ Č_v(z) = H_v(z)X(z)\]</span> gdje je <span class="math inline">\(Č_v(z)\)</span> izraz za čvor koji tražimo a <span class="math inline">\(H_v(z)\)</span> je prijenosna funkcija između ulaza i čvora <span class="math inline">\(v\)</span></p>
+<ol start="2" type="1">
+<li>iz <span class="math inline">\(H_v (z)\)</span> računamo impulsni odziv <span class="math inline">\(h_v [n]\)</span></li>
+<li>računamo <span class="math inline">\(\sum_{n \in \mathbb{Z}}h_v [n]\)</span>.</li>
+<li>određujemo dinamiku kao $ D_v = D_x _{m }|h_v[m]|$</li>
+</ol>
 </details>
 </body>
 </html>
