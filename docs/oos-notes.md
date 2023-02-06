@@ -861,6 +861,61 @@ IIR Mane:
 <details open><summary>Definirajte brzu Fourierovu transformaciju (FFT) i navedite njenu asimptotsku složenost.
 </summary>
 
+### Ponavljanje
+
+Bazna funckije $\text{DTF}_N$ su $\phi_k[n] = exp(2\pi j \frac{n k}{N}), k = 0, ..., N-1$
+
+Radi preglednosti uvodimo oznaku
+$W^{n k}_N = exp(2\pi j \frac{n k}{N})$
+
+Uoči da se "broj" i "nazivnik" kod $W$-a mogu kratiti.
+
+Sad spektar možemo zapisati kao:
+
+$$ X[n] = \sum\limits_{n=0}^{N-1}x[n]W^{n k}_{\textcolor{red}{N}} $$
+
+a $\textcolor{red}{N}$ označava broj jednako raspodjeljenih kompleksnih brojeva na jediničnoj kružnici.
+
+![](2023-02-06-00-10.png)
+
+Broj operacija za izrarvno računanje $\text{DTF}_N$ jest:
+- $4N^2$ množenje realnih brojeva
+- $4N^2 - 2N$ zbrajanja realnih brojeva
+
+dakle složenost je $O(N^2)$
+
+Problem složenosti napadamo sa principom podjeli-pa-vladaj. Neka je $N$ složen broj oblika $r^m$. Tad princip zovemo korijen-r metoda. Konkretno mi uvijek koristimo $r=2$ što je onda korijen-2 metoda (engl. radix-2)
+
+Sad svaki indeks rastavljamo na dva načina:
+1. decimacija u vremenu ,$n$ prestavljamo u obliku $n = 2n_1 + n_0$
+2. decimacija u frekvenciji, $k$ prestavljamo u obliku $k=2 k_1 + k_0$
+
+Razlažemo signal $x[n]$ na parne i neparne indeksirane uzorke:
+
+![](2023-02-06-00-15.png)
+
+$$
+\begin{aligned}
+X[k] & =\operatorname{DFT}_N[x[n]]=\sum_{n=0}^{N-1} x[n] W_N^{n k} \\
+& =\underbrace{\sum_{n=0}^{N / 2-1} x[2 n] W_N^{2 n k}}_{\text {parno indeksirani }}+\underbrace{\sum_{n=0}^{N / 2-1} x[2 n+1] W_N^{(2 n+1) k}}_{\text {neparno indeksirani }} \\
+& =\sum_{n=0}^{N / 2-1} x[2 n] W_{N / 2}^{n k}+W_N^k \sum_{n=0}^{N / 2-1} x[2 n+1] W_{N / 2}^{n k} \\
+& =\operatorname{DFT}_{N / 2}[x[2 n]]+W_N^k \operatorname{DFT}_{N / 2}[x[2 n+1]]
+\end{aligned}
+$$
+
+Interpretacija člana $W^k_n$ je ta da množimo nešto sa kompleksnim brojem što u ovom slučaju rotira podgrupu i tako se prebacujemo na neparne indeksirani spektar.
+
+![](2023-02-06-00-18.png)
+
+### Analiza složenosti
+
+Složenost spajanja dvije $DFT_{N/2}$ u jednu $DFT_N$ je:
+- $N$ množenja kompleksnih brojeva
+- $N$ zbrajanja kompleksnih brojeva
+
+Dakle za rastavljanje imamo $O(m N)$ ako je $m$ broj razina rastava. Vrijedi $N=2^m$ pa je $m = log_2 N$
+
+Konačna složenost potpunog rastava za korijen-2 decimaciju je $O(N log_2 N)$
 </details>
 
 <details open><summary>Objasnite razliku između linearne i cirkularne konvolucije te objasnite kako koristimo FFT za efikasno računanje linearne konvolucije konačnih signala.
@@ -871,9 +926,148 @@ IIR Mane:
 <details open><summary>Objasnite razliku između linearne i cirkularne korelacije te objasnite kako koristimo FFT za efikasno računanje linearne korelacije konačnih signala.
 </summary>
 
+Linearna konvolucija:
+
+$$
+x[n] * y[n]=\sum_{m \in \mathbb{Z}} x[m] y[n-m]
+$$
+
+možemo ju lakše računati da izračunamo tablicu množenja pa radimo sumacije.
+
+Cirkularna konvolucija ($\langle n-m\rangle _N$ je oznaka za modulo $N$):
+
+$$
+x[n] \otimes y[n]=\sum_{m=0}^{N-1} x[m] y\left[\langle n-m\rangle_N\right]
+$$
+
+Teorem o konvoluciji kaže da se konvolucija u vremenskoj domeni preslikava u običan umnožak u frekvencijskoj domeni.
+
+Za velike N možemo koristit FFT da izračunamo cirkularnu konvoluciju tako da prvo napravimo Fourierovu transformaciju nad oba signala. Sad imamo 2 spektra. Pomnožimo ih, a zatim ih vratimo u signal sa inverzom Foruierove transformacije. Složenost te operacije je $O(N log_2 N)$
+
+$$
+x[n] \otimes y[n]=\operatorname{IDFT}_N\left[\mathrm{DFT}_N[x[n]] \cdot \mathrm{DFT}_N[y[n]]\right]
+$$
+
+
+### Linearna korelacija
+
+Nije komutativna! No vrijedi $r_{xy}[n] = r_{yx}[-n]$
+
+$$
+\begin{aligned}
+& r_{x y}[n]=x[n] \star y[n]=\sum_{m \in \mathbb{Z}} x[n+m] y^*[m] \\
+& r_{y x}[n]=y[n] \star x[n]=\sum_{m \in \mathbb{Z}} y[n+m] x^*[m]
+\end{aligned}
+$$
+
+
+### Cirkularna korelacija
+
+Nije komutativna! No vrijedi $r_{xy}[n] = r_{yx}[-n]$
+
+$$
+\begin{aligned}
+& \tilde{r}_{x y}[n]=x[n] \circledast y[n]=\sum_{m=0}^{N-1} x\left[\langle n+m\rangle_N\right] y^*[m] \\
+& \tilde{r}_{y x}[n]=y[n] \circledast x[n]=\sum_{m=0}^{N-1} y\left[\langle n+m\rangle_N\right] x^*[m]
+\end{aligned}
+$$
+
+Teorem o korelaciji kaže da se korelacija u vremenskoj domeni preslikava u umnožak dva spektra od kojih je drugi konjugiran u frekvencijskoj domeni.
+
+Vrijedi:
+
+$$
+\begin{aligned}
+& \operatorname{DTFT}[x[n] \star y[n]]=\operatorname{DTFT}[x[n]] \cdot \operatorname{DTFT}[y[n]]^* \\
+& \operatorname{DTFT}[y[n] \star x[n]]=\operatorname{DTFT}[y[n]] \cdot \operatorname{DTFT}[x[n]]^*
+\end{aligned}
+$$
+
+Ako djelujemo sa IDTFT operacijom dobivamo sljedeće:
+
+$$
+\begin{aligned}
+& x[n] \star y[n]=\operatorname{IDTFT}[\operatorname{DTFT}[x[n]] \cdot \operatorname{DTFT}[y[n]]^*] \\
+& y[n] \star x[n]=\operatorname{IDTFT}[\operatorname{DTFT}[y[n]] \cdot \operatorname{DTFT}[x[n]]^*]
+\end{aligned}
+$$
+
+Dakle korelaciju možemo izračunati pomoću DTFT-a na sljedeći način:
+- primjeni DTFT na oba signala
+- sad imamo dva spektra
+- primjeni konjugaciju za drugi spektar
+- pomnoži dva spektra
+- koristi IDTFT da se vratiš u vremensku domenu 
+
+Složenost za efikasno računanje korelacije uz FFT je $O(N log_2 N)$ uz veću skrivenu konstantu.
+
+Signal korelacije postoji i lijevo i desno od toček $n=0$ dok standardne implementacije FFT-a očekuju desne signale koji počinju od $n=0$ pa zato:
+- računamo li $r_{xy}[n]$ koraku $n$ dodajemo $- N_y +1$
+- računamo li $r_{yx}[n]$ koraku $n$ dodajemo $- N_x +1$
 </details>
 
 <details open><summary>Navedite nekoliko problema aritmetike konačne preciznosti te detaljno objasnite kako možemo otkloniti problem preljeva.
 </summary>
 
+Realizacija filtra mora biti numerički stabila pa ćemo definirati česte numeričke probleme poput **preljev, podljev i greška zaokruživanja**
+
+Svaki program koji izravno računa sljedeći izraz kažemo da odgovara direktnoj realizaciji
+
+$$
+y[n]=\frac{1}{a_0}\left(\sum_{l=0}^L b_l x[n-l]-\sum_{k=1}^K a_k y[n-k]\right)
+$$
+
+### Početne vrijednosti
+
+Kažemo da se na početku filtracije javlja prijelazna pojava jer početne vrijednosti $x[n]$ i $y[n]$ nisu poznate. Ona je određena brzinom prigušenja impulsnog odziva. Generalno se postavljaju u nulu jer se time osiguravamo linearnost. 
+
+Možemo smanjtii broj međurezutlata tako da spojimo ulaz $x[n]$ i  izlaz $y[n]$ u programu. 
+
+---
+
+... TODO ... 
+
+---
+
+Konačna preciznost određena je broj značajnih znamenki koje pohranjujemo i položaj decimalne točke. Kod prelaska u konačnu preciznost uvijek se javljaju greške zaokruživanja. Te operacije onda označavamo sa zaokruživanjem simbola.
+
+> Rezultat približnih operacija u konačnoj preciznosti koje unose grešku mora biti jednak **zaokruživanju** rezultata kojeg bi dobili korištenjem artimetike beskonačne preciznosti na najbliži broj kojeg možemo zapisati.
+
+Ako je najveći broj kojeg možemo zapisati 9.9 a najmanji -9.9, a najmanji pozitivan 0.1
+
+onda 6.2 + 5.3 = 9.9 (nije 11.5) jer se dogodio **preljev**.
+
+Također ovisi o vrsti artimetike:
+- aritmetika zasićenjem: 9.9 (stane na max broju)
+- modulna artimetika: -8.4 (dolazi do prematanja)
+
+--- 
+
+Pri množenju 6.2 * 0.2 = 1.24 ali zapravo dobivamo 1.2 i tu se dogodila greška zaokruživanja.
+
+Također 0.2 * 0.2 = 0.04 ali zapravo dobivamo 0 i to je greška **podljeva**.
+
+---
+
+Prelijev se događa u čvoru grafa toka signala čija apsolutna vrijednost preskoči **dinamku $D$**
+
+Ako postavimo ograničenje amplitude (ili dinamike) ulaza 
+
+$$ |x[n]| \le D_x \lt D $$
+
+onda za svaki čvor kroz analizu najgoreg slučaja možemo odrediti kolika može biti najveća vrijednost u tom čvoru.
+
+Ako znamo sve dinamike čvorova $D_v$ onda možemo uvesti pojačanje $k_ul$ i $k_izl$ takva da vrijedi:
+
+$$
+k_{\mathrm{ul}}=\frac{1}{k_{\mathrm{iz}}}=\frac{D}{\max _v D_v}
+$$
+
+Dinamiku određujemo u tri koraka:
+1. određujemo prijenosnu funkciju Hv (z) između ulaza i čvora
+   - označimo sve čvorove i iz njih postavljamo jednadžbe. Na kraju svedemo sve na izraz: $$ Č_v(z) = H_v(z)X(z)$$ gdje je $Č_v(z)$ izraz za čvor koji tražimo a $H_v(z)$ je prijenosna funkcija između ulaza i čvora $v$
+
+2. iz $H_v (z)$ računamo impulsni odziv $h_v [n]$
+3. računamo $\sum_{n \in \mathbb{Z}}h_v [n]$.
+4. određujemo dinamiku kao $ D_v = D_x \sum_{m \in \mathbb{Z}}|h_v[m]|$
 </details>
