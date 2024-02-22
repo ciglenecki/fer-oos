@@ -1,8 +1,7 @@
 ---
 title: Osnove obradbe signala - usmeni
-geometry: margin=1cm
-output: pdf_document
 ---
+
 
 <style>
     body {
@@ -43,12 +42,20 @@ output: pdf_document
         }
 </style>
 
-<br>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+
+# Osnove obradbe signala - usmeni
+
+```
+2024-02-22: dodan minus predznak kod "Radi preglednosti uvodimo oznaku"
+```
 
 ako pronađeš grešku pošalji email na matej . ciglenecki2 at gmail . com
 
-<button id="run_system">Show / hide questions</button>
-<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<button id="run_system">show / hide questions</button>
+
 <script>$("#run_system").click(function () {
         console.log("click")
         if ($("details").attr("open") == "open") {
@@ -58,6 +65,7 @@ ako pronađeš grešku pošalji email na matej . ciglenecki2 at gmail . com
         }
 });
 </script>
+
 
 ### Signali
 
@@ -103,7 +111,7 @@ $\mu[n] = \sum\limits_{m=-\infty}^{n}\delta[m]$
 
 </details>
 
-<details open><summary>(1) Objasnite dekompoziciju signala u težinsku sumu baznih funkcija (2) Objasnite što je spektar signala. (3) Definirajte matricu baznih funkcija, Gramovu matricu i transforamcijsku matricu koju koristimo za računanje spektra nekog signala konačnog trajanja.
+<details open><summary>\(1) Objasnite dekompoziciju signala u težinsku sumu baznih funkcija (2) Objasnite što je spektar signala. (3) Definirajte matricu baznih funkcija, Gramovu matricu i transforamcijsku matricu koju koristimo za računanje spektra nekog signala konačnog trajanja.
 </summary>
 
 Signal rastavljamo u njegove gradivne komponente koje se sastoje od drugih signala (bazne funkcije $\phi_k(t)$) a spektar ($s_k$) označava doprinos pojedine bazne funkcije.
@@ -866,7 +874,7 @@ IIR Mane:
 Bazna funckije $\text{DTF}_N$ su $\phi_k[n] = exp(2\pi j \frac{n k}{N}), k = 0, ..., N-1$
 
 Radi preglednosti uvodimo oznaku
-$W^{n k}_N = exp(2\pi j \frac{n k}{N})$
+$W^{n k}_N = exp(-2\pi j \frac{n k}{N})$
 
 Uoči da se "broj" i "nazivnik" kod $W$-a mogu kratiti.
 

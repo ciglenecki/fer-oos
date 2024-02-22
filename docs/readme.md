@@ -1,0 +1,1 @@
+pandoc --mathjax oos-notes.md -o test.html
