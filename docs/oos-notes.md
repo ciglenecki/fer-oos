@@ -48,7 +48,7 @@ title: Osnove obradbe signala - usmeni
 
 # Osnove obradbe signala - usmeni
 
-ako pronađeš grešku napravi PR na: https://github.com/ciglenecki/fer-oos
+ako pronađeš grešku napravi PR na: [https://github.com/ciglenecki/fer-oos](https://github.com/ciglenecki/fer-oos)
 
 ```
 2024-02-22: dodan minus predznak kod "Radi preglednosti uvodimo oznaku"

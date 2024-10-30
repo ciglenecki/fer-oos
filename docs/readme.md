@@ -10,5 +10,5 @@ Feel free to add new notes, images, correct mistakes, or improve the existing no
 
 Converting from markdown to html:
 ```bash
-pandoc --mathjax docs/oos-notes.md -o docs/test.html
+pandoc --mathjax docs/oos-notes.md -o docs/index.html
 ```
